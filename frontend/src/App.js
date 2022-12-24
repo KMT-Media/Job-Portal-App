@@ -4,13 +4,15 @@ import { Container } from 'react-bootstrap';
 import Footer from './components/Footer';
 import Header from './components/Header';
 
+// Components
+import HomeScreen from './components/HomeScreen';
 const App = () => {
   return (
     <>
       <Header />
       <main>
         <Container>
-          <h1>Hello From App</h1>
+          <HomeScreen />
         </Container>
       </main>
       <Footer />

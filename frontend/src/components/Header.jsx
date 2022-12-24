@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaSign, FaDashcube } from 'react-icons/fa';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 
 function Header() {
@@ -12,12 +11,12 @@ function Header() {
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ml-auto'>
               <Nav.Link href='/portal'>
-                <FaDashcube />
+                <i className='fa-solid fa-gauge'></i>
                 Portal
               </Nav.Link>
               <Nav.Link href='/signin'>
-                <FaSign />
-                Sign In
+                <i className='fa-solid fa-user'></i>
+                Signin
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
