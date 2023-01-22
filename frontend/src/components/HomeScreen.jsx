@@ -1,14 +1,14 @@
-import React from 'react';
+// import React from 'react';
 
-// Components
-import JobList from './HOME/JobList';
+// // Components
+// import JobList from './HOME/JobList';
 
-function HomeScreen() {
-  return (
-    <>
-      <JobList />
-    </>
-  );
-}
+// function HomeScreen() {
+//   return (
+//     <>
+//       <JobList />
+//     </>
+//   );
+// }
 
-export default HomeScreen;
+// export default HomeScreen;
