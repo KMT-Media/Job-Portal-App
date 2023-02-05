@@ -11,6 +11,10 @@ const jobsSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    jobLevel: {
+      type: String,
+      required: true,
+    },
     type: {
       type: String,
       required: true,
@@ -27,15 +31,12 @@ const jobsSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    companyUrl: {
-      type: String,
+    featured: {
+      type: Boolean,
       required: true,
+      default: false,
     },
     skills: [String],
-    link: {
-      type: String,
-      required: true,
-    },
   },
   {
     timestamps: true,

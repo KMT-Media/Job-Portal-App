@@ -5,7 +5,7 @@ import {
   JOB_DETAILS_REQUEST,
   JOB_DETAILS_SUCCESS,
   JOB_DETAILS_FAIL,
-} from '../constants/jobConstant.js';
+} from '../constants/jobConstants.js';
 
 export const jobListReducer = (state = { jobs: [] }, action) => {
   switch (action.type) {

@@ -3,11 +3,11 @@ import { Spinner } from 'react-bootstrap';
 function Loader() {
   return (
     <Spinner
-      animation='border'
-      role='status'
+      animation='grow'
+      variant='dark'
       style={{
-        width: '100px',
-        height: '100px',
+        width: '200px',
+        height: '200px',
         margin: 'auto',
         display: 'block',
       }}

@@ -3,7 +3,8 @@ import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
-} from '../constants/userConstant';
+  USER_LOGOUT,
+} from '../constants/userConstants';
 
 // make a request to login and get token (not complete)
 export const login = (email, password) => async (dispatch) => {
@@ -29,6 +30,7 @@ export const login = (email, password) => async (dispatch) => {
       payload: data,
     });
 
+    // save userInfo to local storage
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
@@ -39,4 +41,9 @@ export const login = (email, password) => async (dispatch) => {
           : error.message,
     });
   }
+};
+
+export const logOut = () => (dispatch) => {
+  localStorage.removeItem('userInfo');
+  dispatch({ type: USER_LOGOUT });
 };
