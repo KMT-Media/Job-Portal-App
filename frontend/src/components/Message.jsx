@@ -1,16 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+// import { Link } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
 
 function Message({ variant, children }) {
-  return (
-    <Alert className='mt-3' variant={variant}>
-      {children}{' '}
-      <Link to='/'>
-        <Alert.Link>Go Back</Alert.Link>
-      </Link>
-    </Alert>
-  );
+  const [show, setShow] = useState(true);
+  if (show) {
+    return (
+      <div>
+        <Alert
+          className='mt-3'
+          onClose={() => setShow(false)}
+          variant={variant}
+          dismissible
+        >
+          {children}{' '}
+          {/* <Link to='/'>
+          <Alert.Link>Go Back</Alert.Link>
+        </Link> */}
+        </Alert>
+      </div>
+    );
+  }
 }
 
 Message.defaultProps = {

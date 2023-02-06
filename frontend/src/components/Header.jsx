@@ -1,7 +1,7 @@
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { logOut } from '../actions/userActions';
+import { logout } from '../actions/userActions';
 
 const Header = () => {
   const userLogin = useSelector((state) => state.userLogin);
@@ -9,7 +9,7 @@ const Header = () => {
 
   const dispatch = useDispatch();
   const loginSubmitHandler = () => {
-    dispatch(logOut);
+    dispatch(logout());
   };
 
   return (
@@ -32,7 +32,7 @@ const Header = () => {
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
                   <LinkContainer to='/profile'>
-                    <NavDropdown.Item>Action</NavDropdown.Item>
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={loginSubmitHandler}>
                     Log Out
