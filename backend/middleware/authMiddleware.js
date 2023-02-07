@@ -40,4 +40,13 @@ const admin = (req, res, next) => {
   }
 };
 
-export { protect, admin };
+const employeer = (req, res, next) => {
+  if (req.user && !req.user.isJobSeeker) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error('Not authorized as an employeer');
+  }
+};
+
+export { protect, admin, employeer };

@@ -23,12 +23,6 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
-              <LinkContainer to='/portal'>
-                <Nav.Link>
-                  <i className='fa-solid fa-gauge'></i> Portal
-                </Nav.Link>
-              </LinkContainer>
-
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
                   <LinkContainer to='/profile'>
@@ -49,14 +43,23 @@ const Header = () => {
 
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title='Manage' id='adminmenu'>
-                  <LinkContainer to='/admin/userlist'>
+                  <LinkContainer to='/admin/editList'>
                     <NavDropdown.Item>
-                      <i class='fa-solid fa-users'></i> Users
+                      <i className='fa-solid fa-users'></i> Users & Jobs
                     </NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to='/admin/joblist'>
                     <NavDropdown.Item>
-                      <i class='fa-solid fa-list-check'></i> Jobs
+                      <i className='fa-solid fa-check'></i> Approvals
+                    </NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
+              )}
+              {userInfo && !userInfo.isJobSeeker && !userInfo.isAdmin && (
+                <NavDropdown title='Manage' id='employeermenu'>
+                  <LinkContainer to='/employeer/jobList'>
+                    <NavDropdown.Item>
+                      <i className='fa-solid fa-users'></i> Your Jobs
                     </NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>

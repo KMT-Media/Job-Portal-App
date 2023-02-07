@@ -7,7 +7,7 @@ import Loader from '../components/Loader';
 import { listUsers, deleteUser } from '../actions/userActions';
 import { listJobs, deleteJobs } from '../actions/jobActions';
 
-const UserListScreen = () => {
+const AdminEditScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -134,4 +134,4 @@ const UserListScreen = () => {
   );
 };
 
-export default UserListScreen;
+export default AdminEditScreen;

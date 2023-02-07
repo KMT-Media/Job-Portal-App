@@ -45,4 +45,68 @@ const deleteJob = asyncHandler(async (req, res) => {
   }
 });
 
-export { getJobById, getJobs, deleteJob };
+// description    Create Job
+// route          POST /api/jobs
+// access         Private/employeer
+const createJob = asyncHandler(async (req, res) => {
+  const job = new Jobs({
+    user: req.user._id,
+    companyName,
+    featured,
+    title,
+    jobLevel,
+    type,
+    location,
+    workLocation,
+    description,
+    numberOfEmployee,
+    jobCategory,
+    skills,
+  });
+
+  job.skills = job.skills.split(',');
+  const createdJob = await job.save();
+  res.status(201).json(createdJob);
+});
+
+// description    Update job
+// route          PUT /api/jobs/:id
+// access         Private/employeer
+const updateJob = asyncHandler(async (req, res) => {
+  const {
+    companyName,
+    featured,
+    title,
+    jobLevel,
+    type,
+    location,
+    workLocation,
+    description,
+    numberOfEmployee,
+    jobCategory,
+    skills,
+  } = req.body;
+
+  const job = await Jobs.findById(req.params.id);
+
+  if (job) {
+    job.companyName = companyName;
+    job.featured = featured;
+    job.title = title;
+    job.jobLevel = jobLevel;
+    job.type = type;
+    job.location = location;
+    job.workLocation = workLocation;
+    job.numberOfEmployee = numberOfEmployee;
+    job.jobCategory = jobCategory;
+    job.skills = skills.split(',');
+
+    const updatedJob = await job.save();
+    res.json(updatedJob);
+  } else {
+    res.status(404);
+    throw new Error('Job Not Found.');
+  }
+});
+
+export { getJobById, getJobs, deleteJob, updateJob, createJob };
