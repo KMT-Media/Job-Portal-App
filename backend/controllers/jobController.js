@@ -5,8 +5,15 @@ import Jobs from '../models/jobsModels.js';
 // route   GET /api/jobs
 // access  Public
 const getJobs = asyncHandler(async (req, res) => {
-  // find {} gives you everything
-  const jobs = await Jobs.find({});
+  const keyword = req.query.keyword
+    ? {
+        title: {
+          $regex: req.query.keyword,
+          $options: 'i',
+        },
+      }
+    : {};
+  const jobs = await Jobs.find({ ...keyword });
   res.json(jobs);
 });
 

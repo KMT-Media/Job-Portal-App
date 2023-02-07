@@ -8,10 +8,9 @@ import Footer from './components/Footer';
 // Screens
 import HomeScreen from './screens/HomeScreen';
 import JobScreen from './screens/JobScreen';
-// import LoginScreen from './screens/LoginScreen';
 import LoginScreen2 from './screens/LoginScreen2';
-// import RegisterScreen from './screens/RegisterScreen';
 import RegisterScreen2 from './screens/RegisterScreen2';
+import ProfileScreen from './screens/ProfileScreen';
 
 const App = () => {
   return (
@@ -21,9 +20,10 @@ const App = () => {
         <Container>
           <Routes>
             <Route path='/' element={<HomeScreen />} />
-            {/* <Route path='/login' element={<LoginScreen />} /> */}
+            <Route path='/search/:keyword' element={<HomeScreen />} />
             <Route path='/login' element={<LoginScreen2 />} />
             <Route path='/register' element={<RegisterScreen2 />} />
+            <Route path='/profile' element={<ProfileScreen />} />
             <Route path='/jobs/:id' element={<JobScreen />} />
           </Routes>
         </Container>

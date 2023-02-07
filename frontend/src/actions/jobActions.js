@@ -9,21 +9,23 @@ import {
 
 import axios from 'axios';
 
-export const listJobs = () => async (dispatch) => {
-  try {
-    dispatch({ type: JOB_LIST_REQUEST });
-    const { data } = await axios.get('/api/jobs');
-    dispatch({ type: JOB_LIST_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: JOB_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+export const listJobs =
+  (keyword = '') =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: JOB_LIST_REQUEST });
+      const { data } = await axios.get(`/api/jobs?keyword=${keyword}`);
+      dispatch({ type: JOB_LIST_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: JOB_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 export const listJobDetails = (id) => async (dispatch) => {
   try {

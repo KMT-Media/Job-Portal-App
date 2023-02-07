@@ -23,6 +23,10 @@ const jobsSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    workLocation: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
       required: true,
@@ -35,6 +39,17 @@ const jobsSchema = mongoose.Schema(
       type: Boolean,
       required: true,
       default: false,
+    },
+    numberOfEmployee: {
+      type: Number,
+      required: true,
+    },
+    jobCategory: {
+      type: String,
+      required: true,
+    },
+    applicantsNeeded: {
+      type: String,
     },
     skills: [String],
   },

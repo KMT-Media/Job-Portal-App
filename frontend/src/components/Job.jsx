@@ -34,9 +34,9 @@ function Job({ item }) {
       </div>
       <div className='part2'>
         <p className='text-center'>Skills Required</p>
-        <div>
+        <div className='keyword-container'>
           {keywords.map((key, id) => (
-            <span key={id}>{key}</span>
+            <div key={id}>{key}</div>
           ))}
         </div>
       </div>

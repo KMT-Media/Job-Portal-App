@@ -1,0 +1,37 @@
+.search-bar {
+  width: 100%;
+  max-width: 500px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  border-radius: 60px;
+  margin-top: 30px;
+  padding: 8px 15px;
+  backdrop-filter: blur(4px) saturate(180);
+
+  input {
+    background: transparent;
+    flex: 1;
+    border: 0;
+    outline: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    color: var(--primary-color);
+  }
+  button {
+    border: 0;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    cursor: pointer;
+
+    i {
+      width: 25px;
+    }
+  }
+
+  @media only screen and (max-width: 630px) {
+    max-width: 630px;
+  }
+}

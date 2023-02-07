@@ -1,2 +1,12 @@
 New feature is going to be determined by the created at Object genetated.
 Make shure to add the new feature
+
+Categories
+Marketing
+Customer Service
+Design & Creative
+Teaching & Education
+Business Development
+Technology
+
+Job Deadline is required
