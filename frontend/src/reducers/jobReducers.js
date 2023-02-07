@@ -5,6 +5,9 @@ import {
   JOB_DETAILS_REQUEST,
   JOB_DETAILS_SUCCESS,
   JOB_DETAILS_FAIL,
+  JOB_DELETE_REQUEST,
+  JOB_DELETE_SUCCESS,
+  JOB_DELETE_FAIL,
 } from '../constants/jobConstants.js';
 
 export const jobListReducer = (state = { jobs: [] }, action) => {
@@ -27,6 +30,19 @@ export const jobDetailsReducer = (state = { job: {} }, action) => {
     case JOB_DETAILS_SUCCESS:
       return { loading: false, job: action.payload };
     case JOB_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const jobDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case JOB_DELETE_REQUEST:
+      return { loading: true };
+    case JOB_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case JOB_DELETE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

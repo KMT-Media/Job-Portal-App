@@ -44,6 +44,14 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// Desc    Get all users
+// route   Get /api/users/
+// access  Private/Admin
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+  res.json(users);
+});
+
 // desc    Update user profile
 // route   PUT /api/users/profile
 // access  Private
@@ -76,7 +84,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // route   Get /api/users/
 // access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, isJobSeeker } = req.body;
 
   // check user exists
   const userExists = await User.findOne({ email });
@@ -92,6 +100,7 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
+    isJobSeeker,
   });
 
   // 201 (something is created)
@@ -101,6 +110,7 @@ const registerUser = asyncHandler(async (req, res) => {
       name: createUser.name,
       email: createUser.email,
       isAdmin: createUser.isAdmin,
+      isJobSeeker: createUser.isJobSeeker,
       token: generateToken(createUser._id),
     });
   } else {
@@ -109,4 +119,26 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, getUserProfile, registerUser, updateUserProfile };
+// desc    Delete user
+// route   DELETE /api/users/:id
+// access  Private/Admin
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    await user.remove();
+    res.json({ message: 'User removed' });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+export {
+  authUser,
+  getUserProfile,
+  registerUser,
+  updateUserProfile,
+  getUsers,
+  deleteUser,
+};

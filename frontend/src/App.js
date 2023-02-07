@@ -11,6 +11,7 @@ import JobScreen from './screens/JobScreen';
 import LoginScreen2 from './screens/LoginScreen2';
 import RegisterScreen2 from './screens/RegisterScreen2';
 import ProfileScreen from './screens/ProfileScreen';
+import UserListScreen from './screens/UserListScreen';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
             <Route path='/register' element={<RegisterScreen2 />} />
             <Route path='/profile' element={<ProfileScreen />} />
             <Route path='/jobs/:id' element={<JobScreen />} />
+            <Route path='/admin/userList' element={<UserListScreen />} />
           </Routes>
         </Container>
       </main>

@@ -5,6 +5,9 @@ import {
   JOB_DETAILS_REQUEST,
   JOB_DETAILS_SUCCESS,
   JOB_DETAILS_FAIL,
+  JOB_DELETE_REQUEST,
+  JOB_DELETE_SUCCESS,
+  JOB_DELETE_FAIL,
 } from '../constants/jobConstants.js';
 
 import axios from 'axios';
@@ -39,6 +42,35 @@ export const listJobDetails = (id) => async (dispatch) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
+    });
+  }
+};
+
+export const deleteJobs = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: JOB_DELETE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    await axios.delete(`/api/jobs/${id}`, config);
+    dispatch({ type: JOB_DELETE_SUCCESS });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({
+      type: JOB_DELETE_FAIL,
+      payload: message,
     });
   }
 };

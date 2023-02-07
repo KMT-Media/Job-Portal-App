@@ -23,7 +23,7 @@ const SearchBox = () => {
         onChange={(e) => setkeyword(e.target.value)}
       />
       <button type='submit'>
-        <i class='fa-solid fa-magnifying-glass'></i>
+        <i className='fa-solid fa-magnifying-glass'></i>
       </button>
     </form>
   );

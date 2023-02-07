@@ -10,6 +10,7 @@ const RegisterScreen2 = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isJobSeeker, setIsJobSeeker] = useState(false);
   const [confirmPassword, setConfirmPassowrd] = useState('');
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const RegisterScreen2 = () => {
     if (password !== confirmPassword) {
       setMessage('Passwords do not match...');
     } else {
-      dispatch(register(name, email, password));
+      dispatch(register(name, email, password, isJobSeeker));
     }
   };
   return (
@@ -84,6 +85,15 @@ const RegisterScreen2 = () => {
               onChange={(e) => setConfirmPassowrd(e.target.value)}
               required
             />
+          </div>
+          <div>
+            <input
+              type='checkbox'
+              checked={isJobSeeker}
+              onChange={(e) => setIsJobSeeker(e.target.checked)}
+              required
+            />
+            <label htmlfor='jobseeker'>Job Seeker</label>
           </div>
           <div className='input-box'>
             <input type='submit' value='Register' className='input-submit' />

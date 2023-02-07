@@ -30,4 +30,19 @@ const getJobById = asyncHandler(async (req, res) => {
   }
 });
 
-export { getJobById, getJobs };
+// desc    Delete job
+// route   DELETE /api/jobs/:id
+// access  Private/Admin
+const deleteJob = asyncHandler(async (req, res) => {
+  const job = await Jobs.findById(req.params.id);
+
+  if (job) {
+    await job.remove();
+    res.json({ message: 'Job removed' });
+  } else {
+    res.status(404);
+    throw new Error('Job not found');
+  }
+});
+
+export { getJobById, getJobs, deleteJob };
