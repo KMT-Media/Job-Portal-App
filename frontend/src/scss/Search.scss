@@ -35,3 +35,12 @@
     max-width: 630px;
   }
 }
+
+.back {
+  border: 0;
+  padding: 10px 19px;
+  border-radius: 8px;
+  margin-top: 10px;
+  background: var(--primary-color);
+  cursor: pointer;
+}

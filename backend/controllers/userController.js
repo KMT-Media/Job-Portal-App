@@ -15,6 +15,7 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      isJobSeeker: user.isJobSeeker,
       token: generateToken(user._id),
     });
   } else {
@@ -36,6 +37,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      isJobSeeker: user.isJobSeeker,
     });
   } else {
     // User not found
@@ -141,4 +143,5 @@ export {
   updateUserProfile,
   getUsers,
   deleteUser,
+  registerCv,
 };

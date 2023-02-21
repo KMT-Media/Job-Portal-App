@@ -51,27 +51,27 @@ const deleteJob = asyncHandler(async (req, res) => {
 const createJob = asyncHandler(async (req, res) => {
   const job = new Jobs({
     user: req.user._id,
-    companyName,
-    featured,
-    title,
-    jobLevel,
-    type,
-    location,
-    workLocation,
-    description,
-    numberOfEmployee,
-    jobCategory,
-    skills,
+    companyName: 'Sample Company...',
+    featured: true,
+    title: 'Sample Job titile...',
+    jobLevel: 'Senior',
+    type: 'Full time, contrat...',
+    location: 'Remote or Contrat',
+    workLocation: 'Dire Dawa',
+    description: 'Shord description...',
+    numberOfEmployee: 0,
+    jobCategory: 'Technology',
+    skills: 'list of Skills',
   });
 
-  job.skills = job.skills.split(',');
+  // save in the data base
   const createdJob = await job.save();
   res.status(201).json(createdJob);
 });
 
 // description    Update job
 // route          PUT /api/jobs/:id
-// access         Private/employeer
+// access         Private/employer
 const updateJob = asyncHandler(async (req, res) => {
   const {
     companyName,
@@ -96,16 +96,63 @@ const updateJob = asyncHandler(async (req, res) => {
     job.jobLevel = jobLevel;
     job.type = type;
     job.location = location;
+    job.description = description;
     job.workLocation = workLocation;
     job.numberOfEmployee = numberOfEmployee;
     job.jobCategory = jobCategory;
-    job.skills = skills.split(',');
+    job.skills = skills;
 
     const updatedJob = await job.save();
     res.json(updatedJob);
   } else {
     res.status(404);
-    throw new Error('Job Not Found.');
+    throw new Error('Job Not Found...');
+  }
+});
+
+// Desc    Register a new user
+// route   Get /api/jobs/
+// access  Private/employeer
+const createJob2 = asyncHandler(async (req, res) => {
+  const {
+    companyName,
+    featured,
+    title,
+    jobLevel,
+    type,
+    location,
+    workLocation,
+    description,
+    numberOfEmployee,
+    jobCategory,
+    skills,
+  } = req.body;
+
+  const createJob = await Jobs.create({
+    companyName,
+    featured,
+    title,
+    jobLevel,
+    type,
+    location,
+    workLocation,
+    description,
+    numberOfEmployee,
+    jobCategory,
+    skills,
+  });
+
+  if (createJob) {
+    res.status(201).json({
+      _id: createJob._id,
+      name: createJob.name,
+      email: createJob.email,
+      isAdmin: createJob.isAdmin,
+      isJobSeeker: createJob.isJobSeeker,
+    });
+  } else {
+    res.status(400);
+    throw new Error('Invalid user data...');
   }
 });
 

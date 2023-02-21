@@ -56,10 +56,19 @@ const Header = () => {
                 </NavDropdown>
               )}
               {userInfo && !userInfo.isJobSeeker && !userInfo.isAdmin && (
-                <NavDropdown title='Manage' id='employeermenu'>
-                  <LinkContainer to='/employeer/jobList'>
+                <NavDropdown title='Manage' id='employermenu'>
+                  <LinkContainer to='/employer/jobList'>
                     <NavDropdown.Item>
                       <i className='fa-solid fa-users'></i> Your Jobs
+                    </NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
+              )}
+              {userInfo && userInfo.isJobSeeker && (
+                <NavDropdown title='Manage' id='employermenu'>
+                  <LinkContainer to='/employeeForm'>
+                    <NavDropdown.Item>
+                      <i className='fa-solid fa-users'></i> Your CV
                     </NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>

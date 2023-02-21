@@ -13,6 +13,10 @@ import RegisterScreen2 from './screens/RegisterScreen2';
 import ProfileScreen from './screens/ProfileScreen';
 import AdminEditScreen from './screens/AdminEditScreen';
 import EmployeerList from './screens/EmployeerList';
+import EmployerCreateJobScren from './screens/EmployerCreateJobScreen';
+import NotFound from './screens/NotFound';
+import JobEditScreen from './screens/JobEditScreen';
+import EmployeeFormScreen from './screens/EmployeeFormScreen';
 
 const App = () => {
   return (
@@ -28,7 +32,15 @@ const App = () => {
             <Route path='/profile' element={<ProfileScreen />} />
             <Route path='/jobs/:id' element={<JobScreen />} />
             <Route path='/admin/editList' element={<AdminEditScreen />} />
-            <Route path='/employeer/jobList' element={<EmployeerList />} />
+            <Route path='/employer/jobList' element={<EmployeerList />} />
+            <Route path='/employer/job/:id/edit' element={<JobEditScreen />} />
+            <Route
+              path='/employer/createJob'
+              element={<EmployerCreateJobScren />}
+            />
+            <Route path='/employeeForm' element={<EmployeeFormScreen />} />
+            <Route path='/notfound' element={<NotFound />} />
+            <Route path='/*' element={<NotFound />} />
           </Routes>
         </Container>
       </main>

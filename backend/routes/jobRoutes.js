@@ -13,6 +13,7 @@ router.route('/').get(getJobs).post(protect, employeer, createJob);
 router
   .route('/:id')
   .get(getJobById)
+  .delete(protect, employeer, deleteJob)
   .delete(protect, admin, deleteJob)
   .put(protect, employeer, updateJob);
 export default router;

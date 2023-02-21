@@ -8,7 +8,9 @@ import {
   jobListReducer,
   jobDetailsReducer,
   jobDeleteReducer,
+  jobCreateReducer,
 } from './reducers/jobReducers';
+
 import {
   userLoginReducer,
   userRegisterReducer,
@@ -22,6 +24,7 @@ const reducer = combineReducers({
   jobList: jobListReducer,
   jobDetails: jobDetailsReducer,
   jobDelete: jobDeleteReducer,
+  jobCreate: jobCreateReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
@@ -35,6 +38,11 @@ const reducer = combineReducers({
 const userInfoFromLocalStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null;
+
+// const saveEmployeeFromLocalStorate = localStorage.getItem('employeeInfo1')
+//   ? JSON.parse(localStorage.getItem('employeeInfo1'))
+//   : {};
+
 const initialState = {
   userLogin: { userInfo: userInfoFromLocalStorage },
 };

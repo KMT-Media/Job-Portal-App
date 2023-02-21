@@ -6,8 +6,8 @@ function Loader() {
       animation='grow'
       variant='dark'
       style={{
-        width: '200px',
-        height: '200px',
+        width: '100px',
+        height: '100px',
         margin: 'auto',
         display: 'block',
       }}

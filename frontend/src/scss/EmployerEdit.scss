@@ -1,0 +1,84 @@
+.job-eidt-container {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  .box {
+    width: 450px;
+    height: auto;
+    background: #fff;
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    padding: 40px;
+    box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.1),
+      -2px -0px 15px 2px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    .login-header {
+      margin-bottom: 35px;
+    }
+    .login-header p {
+      color: var(--primary-color);
+      font-size: 25px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    .input-box {
+      display: flex;
+      flex-direction: column;
+      margin: 10px 0;
+      position: relative;
+      i {
+        font-size: 22px;
+        position: absolute;
+        top: 35px;
+        right: 12px;
+        color: #595b5e;
+      }
+    }
+    input {
+      height: 40px;
+      border: 2px solid rgb(153, 157, 158);
+      border-radius: 7px;
+      margin: 5px 0;
+      outline: none;
+    }
+    .input-field {
+      font-weight: 500;
+      padding: 0 10px;
+      font-size: 17px;
+      color: #333;
+      background: transparent;
+      transition: all 0.3s ease-in-out;
+    }
+    .input-field:focus {
+      border: 2px solid hsl(180, 14%, 20%);
+    }
+    .input-field:focus ~ i {
+      color: var(--primary-color);
+    }
+    .input-submit {
+      background-color: #595b5e;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    .input-submit:hover {
+      background: var(--primary-color);
+    }
+    .forgot {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .forgot span {
+      color: #727374;
+      cursor: pointer;
+      display: flex;
+    }
+    .forgot span:hover {
+      text-decoration: underline;
+    }
+  }
+}

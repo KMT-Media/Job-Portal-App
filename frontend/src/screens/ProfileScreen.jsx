@@ -49,15 +49,18 @@ const ProfileScreen = () => {
     }
   };
 
+  const submitHandler = () => {
+    navigate('/employeeForm');
+  };
+
   return (
     <>
+      {message && <Message variant='danger'>{message}</Message>}
+      {error && <Message variant='danger'>{error}</Message>}
+      {success && <Message variant='success'>Profile Updated</Message>}
+      {loading && <Loader />}
       <div className='profile-container'>
         <div className='box'>
-          {message && <Message variant='danger'>{message}</Message>}
-          {error && <Message variant='danger'>{error}</Message>}
-          {success && <Message variant='success'>Profile Updated</Message>}
-          {loading && <Loader />}
-
           <div className='profile-header'>
             <p>Edit Profile</p>
           </div>
@@ -108,6 +111,46 @@ const ProfileScreen = () => {
             <div>
               <input type='submit' value='Update' className='input-submit' />
             </div>
+          </form>
+        </div>
+      </div>
+      <div className='detail-container'>
+        <div className='left'>
+          <p>
+            <span>Job Title:</span>{' '}
+            {/* <span className='title'>{cv.title}</span> */}
+          </p>
+          <p>
+            <span>Level: </span>
+            {/* {job.jobLevel} */}
+          </p>
+          <p>{/* <span>Type:</span> {job.type} */}</p>
+          <p>{/* <span>Job Location:</span> {job.location} */}</p>
+          {/* <p>
+              <span>Work Location:</span> {job.workLocation}
+            </p> */}
+          <p>{/* <span>Job Description:</span> {job.description} */}</p>
+          <p>{/* <span>Company Name:</span> {job.companyName} */}</p>
+          <p>
+            <span>Skills Required: </span>
+            {/* {job.skills} */}
+          </p>
+          <p>
+            <span>Posted At: </span>
+            {/* {job.createdAt} */}
+          </p>
+        </div>
+
+        <div className='right'>
+          {/* <p>Vaccancies: {job.numberOfEmployee} </p> */}
+          <p>
+            {/* Sex:{' '}
+                {job.applicantsNeeded == null
+                  ? 'Female & Male'
+                  : job.applicantsNeeded}{' '} */}
+          </p>
+          <form onSubmit={submitHandler}>
+            <input type='submit' value='Edit' className='input-submit' />
           </form>
         </div>
       </div>
