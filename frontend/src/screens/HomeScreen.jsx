@@ -9,6 +9,9 @@ import Job from '../components/Job';
 import { useParams } from 'react-router-dom';
 
 const HomeScreen = () => {
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const params = useParams();
   const keyword = params.keyword;
   const dispatch = useDispatch();

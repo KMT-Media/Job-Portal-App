@@ -13,10 +13,15 @@ import RegisterScreen2 from './screens/RegisterScreen2';
 import ProfileScreen from './screens/ProfileScreen';
 import AdminEditScreen from './screens/AdminEditScreen';
 import EmployeerList from './screens/EmployeerList';
-import EmployerCreateJobScren from './screens/EmployerCreateJobScreen';
+// import EmployerCreateJobScren from './screens/EmployerCreateJobScreen';
 import NotFound from './screens/NotFound';
 import JobEditScreen from './screens/JobEditScreen';
 import EmployeeFormScreen from './screens/EmployeeFormScreen';
+import ApprovalScreen from './screens/ApprovalScreen';
+import AdminApproveCv from './screens/AdminApproveCv';
+import EmployeeProfile from './screens/EmployeeProfile';
+import EmployeeProfileEdit from './screens/EmployeeProfileEdit';
+import EmployerView from './screens/EmployerView';
 
 const App = () => {
   return (
@@ -32,14 +37,19 @@ const App = () => {
             <Route path='/profile' element={<ProfileScreen />} />
             <Route path='/jobs/:id' element={<JobScreen />} />
             <Route path='/admin/editList' element={<AdminEditScreen />} />
-            <Route path='/employer/jobList' element={<EmployeerList />} />
+            <Route path='/employer/jobList/:id' element={<EmployeerList />} />
             <Route path='/employer/job/:id/edit' element={<JobEditScreen />} />
-            <Route
+            {/* <Route
               path='/employer/createJob'
               element={<EmployerCreateJobScren />}
-            />
+            /> */}
             <Route path='/employeeForm' element={<EmployeeFormScreen />} />
+            <Route path='/employeeProfile' element={<EmployeeProfile />} />
+            <Route path='/employee/:id/edit' element={<EmployeeProfileEdit />} />
+            <Route path='/admin/approvals' element={<ApprovalScreen />} />
             <Route path='/notfound' element={<NotFound />} />
+            <Route path='/admin/cv/:id/edit' element={<AdminApproveCv />} />
+            <Route path='/employer/:id/view' element={<EmployerView />} />
             <Route path='/*' element={<NotFound />} />
           </Routes>
         </Container>

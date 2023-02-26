@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import generateToken from '../utils/generateToken.js';
 import User from '../models/userModels.js';
+import Cv from '../models/cvModel.js';
 
 // Desc    auth user & get token
 // route   POST /api/users/login
@@ -121,6 +122,36 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Desc    CREATE a new cv
+// route   Get /api/users/jobs
+// access  employee
+const createCv = asyncHandler(async (req, res) => {
+  const {
+    name,
+    gpa,
+    graduatedAt,
+    workExperience,
+    languages
+  } = req.body
+
+  const createCv = await Cv.create({
+    user: req.user._id,
+    name,
+    gpa,
+    graduatedAt,
+    workExperience,
+    languages
+  });
+
+  // 201 (something is created)
+  if (createCv) {
+    res.status(201).json(createCv);
+  } else {
+    res.status(400);
+    throw new Error('Invalid Cv data...');
+  }
+});
+
 // desc    Delete user
 // route   DELETE /api/users/:id
 // access  Private/Admin
@@ -136,6 +167,100 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
+// desc    Delete Cvs
+// route   DELETE /api/users/jobs/:id
+// access  Private/Admin
+const deleteCv= asyncHandler(async (req, res) => {
+  const cv = await Cv.findById(req.params.id);
+  if (cv) {
+    await cv.remove()
+    res.json({ message: 'cv removed' });
+  } else {
+    res.status(404);
+    throw new Error('cv not found');
+  }
+});
+
+
+// Desc    Fetch all Cvs
+// route   GET /api/Cvs
+// access  Private/admin
+const getCvs = asyncHandler(async (req, res) => {
+  const cvs = await Cv.find({});
+  res.json(cvs);
+});
+
+// Desc    Fetch a single sv by name
+// route   GET /api/jobs/:keyword
+// access  Public
+const getCvByName = asyncHandler(async (req, res) => {
+  const keyword = req.query.keyword;
+  const cv = await Cv.find({ name: keyword });
+  if (cv) {
+    res.json(cv);
+  } else {
+    res.status(404);
+    throw new Error('Cv not Found!!!');
+  }
+});
+
+// Desc    Fetch a single job
+// route   GET /api/users/jobs/:id
+// access  private/employee
+const getCvById = asyncHandler(async (req, res) => {
+  const cv = await Cv.findById(req.params.id);
+  if (cv) {
+    res.json(cv);
+  } else {
+    res.status(404);
+    throw new Error('Cv not found...');
+  }
+});
+
+// Desc    Change job to approved
+// route   put /api/users/jobs/:id
+// access  private/employee
+const updateCvById = asyncHandler(async (req, res) => {
+  const {
+    name,
+    gpa,
+    graduatedAt,
+    workExperience,
+    languages,
+  } = req.body
+
+  const cv = await Cv.findById(req.params.id)
+
+  if (cv) {
+    cv.name = name
+    cv.gpa = gpa
+    cv.graduatedAt = graduatedAt
+    cv.workExperience = workExperience
+    cv.languages = languages
+    const updatedCv = await cv.save()
+    res.json(updatedCv)
+  } else {
+    res.status(404)
+    throw new Error('Cv to be updated is not found...')
+  }
+  });
+
+  const approveCv = asyncHandler(async (req, res) => {
+    const cv = await Cv.findById(req.params.id)
+    if (cv) {
+      cv.isApproved = isApproved
+      cv.gpa = gpa
+      cv.graduatedAt = graduatedAt
+      cv.workExperience = workExperience
+      cv.languages = languages
+      const updatedCv = await cv.save()
+      res.json(updatedCv)
+    } else {
+      res.status(404)
+      throw new Error('Cv to be updated is not found...')
+    }
+    });
+
 export {
   authUser,
   getUserProfile,
@@ -143,5 +268,11 @@ export {
   updateUserProfile,
   getUsers,
   deleteUser,
-  registerCv,
+  createCv,
+  getCvs,
+  deleteCv,
+  getCvByName,
+  getCvById,
+  updateCvById,
+  approveCv
 };

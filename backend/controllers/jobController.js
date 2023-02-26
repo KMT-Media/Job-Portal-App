@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Jobs from '../models/jobsModels.js';
+import JobApplication from '../models/JobApplication.js';
 
 // Desc    Fetch all Jobs
 // route   GET /api/jobs
@@ -26,7 +27,7 @@ const getJobById = asyncHandler(async (req, res) => {
     res.json(job);
   } else {
     res.status(404);
-    throw new Error('Product not Found!!!');
+    throw new Error('Product not Found!!!')
   }
 });
 
@@ -69,9 +70,10 @@ const createJob = asyncHandler(async (req, res) => {
   res.status(201).json(createdJob);
 });
 
-// description    Update job
-// route          PUT /api/jobs/:id
-// access         Private/employer
+
+// @desc    Update a product
+// @route   PUT /api/products/:id
+// @access  Private/Admin
 const updateJob = asyncHandler(async (req, res) => {
   const {
     companyName,
@@ -85,75 +87,56 @@ const updateJob = asyncHandler(async (req, res) => {
     numberOfEmployee,
     jobCategory,
     skills,
-  } = req.body;
+  } = req.body
 
-  const job = await Jobs.findById(req.params.id);
+  const job = await Jobs.findById(req.params.id)
 
   if (job) {
-    job.companyName = companyName;
-    job.featured = featured;
-    job.title = title;
-    job.jobLevel = jobLevel;
-    job.type = type;
-    job.location = location;
-    job.description = description;
-    job.workLocation = workLocation;
-    job.numberOfEmployee = numberOfEmployee;
-    job.jobCategory = jobCategory;
-    job.skills = skills;
-
-    const updatedJob = await job.save();
-    res.json(updatedJob);
+    job.companyName = companyName
+    job.featured = featured
+    job.title = title
+    job.jobLevel = jobLevel
+    job.type = type
+    job.location = location
+    job.workLocation = workLocation
+    job.description = description
+    job.numberOfEmployee = numberOfEmployee
+    job.jobCategory = jobCategory
+    job.skills = skills
+    const updatedJob = await job.save()
+    res.json(updatedJob)
   } else {
-    res.status(404);
-    throw new Error('Job Not Found...');
+    res.status(404)
+    throw new Error('Job not found')
   }
-});
+})
 
-// Desc    Register a new user
-// route   Get /api/jobs/
-// access  Private/employeer
-const createJob2 = asyncHandler(async (req, res) => {
-  const {
-    companyName,
-    featured,
-    title,
-    jobLevel,
-    type,
-    location,
-    workLocation,
-    description,
-    numberOfEmployee,
-    jobCategory,
-    skills,
-  } = req.body;
-
-  const createJob = await Jobs.create({
-    companyName,
-    featured,
-    title,
-    jobLevel,
-    type,
-    location,
-    workLocation,
-    description,
-    numberOfEmployee,
-    jobCategory,
-    skills,
+const createAppliedJob = asyncHandler(async (req, res) => {
+  const { userApplied } = req.body
+  const jobById = await Jobs.findById(req.url.split('/')[2]);
+  const jobApplied = new JobApplication({
+    job: jobById._id,
+    userApplied: userApplied,
   });
 
-  if (createJob) {
-    res.status(201).json({
-      _id: createJob._id,
-      name: createJob.name,
-      email: createJob.email,
-      isAdmin: createJob.isAdmin,
-      isJobSeeker: createJob.isJobSeeker,
-    });
-  } else {
-    res.status(400);
-    throw new Error('Invalid user data...');
-  }
+  // save in the data base
+  const createdJob = await jobApplied.save();
+  res.status(201).json(createdJob);
 });
 
-export { getJobById, getJobs, deleteJob, updateJob, createJob };
+const getAppliedJobById = asyncHandler(async (req, res) => {
+  const job = await JobApplication.findById(req.params.id);
+  if (job) {
+    res.json(job);
+  } else {
+    res.status(404);
+    throw new Error('Job not Found!!!')
+  }
+});
+const getAppliedJob = asyncHandler(async (req, res) => {
+  const jobApp = await JobApplication.find({});
+  console.log(jobApp)
+  res.json(jobApp);
+});
+
+export { getJobById, getJobs, deleteJob, updateJob, createJob, createAppliedJob, getAppliedJobById, getAppliedJob };

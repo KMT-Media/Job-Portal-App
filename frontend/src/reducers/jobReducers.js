@@ -13,7 +13,13 @@ import {
   JOB_CREATE_FAIL,
   JOB_CREATE_RESET,
   JOB_SEARCH_RESET,
-  SAVE_EMPLOYEE_INFO1,
+  JOB_UPDATE_SUCCESS,
+  JOB_UPDATE_FAIL,
+  JOB_UPDATE_REQUEST,
+  JOB_UPDATE_RESET,
+  JOB_CREATE_APPLIED_REQUEST,
+  JOB_CREATE_APPLIED_SUCCESS,
+  JOB_CREATE_APPLIED_FAIL,
 } from '../constants/jobConstants.js';
 
 export const jobListReducer = (state = { jobs: [] }, action) => {
@@ -71,3 +77,31 @@ export const jobCreateReducer = (state = {}, action) => {
       return state;
   }
 };
+
+export const jobUpdateReducer = (state = { job: {} }, action) => {
+  switch (action.type) {
+    case JOB_UPDATE_REQUEST:
+      return { loading: true }
+    case JOB_UPDATE_SUCCESS:
+      return { loading: false, success: true, job: action.payload }
+    case JOB_UPDATE_FAIL:
+      return { loading: false, error: action.payload }
+    case JOB_UPDATE_RESET:
+        return { product: {} }
+    default:
+      return state
+  }
+}
+
+export const jobApplyUserReducer = (state = { appliedJob: {} }, action) => {
+  switch (action.type) {
+    case JOB_CREATE_APPLIED_REQUEST:
+      return { loading: true }
+    case JOB_CREATE_APPLIED_SUCCESS:
+      return { loading: false, success: true, appliedJob: action.payload }
+    case JOB_CREATE_APPLIED_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}

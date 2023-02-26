@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { getUserDetails } from '../actions/userActions';
 import { updateUserProfile } from '../actions/userActions';
+import { listCvDetails } from '../actions/employeeAction';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 import '../scss/profile.scss';
 
@@ -17,16 +18,23 @@ const ProfileScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { loading:loadingJob, job, error:errorJob } = useSelector((state) => state.jobDetails);
+  console.log(job);
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
 
+  const cvDetails = useSelector((state) => state.cvDetails);
+  const { loading: loadingCv, error: cvError, cv } = cvDetails;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+  const cvId = userInfo._id 
 
   const userUpdate = useSelector((state) => state.userUpdate);
   const { success } = userUpdate;
 
   useEffect(() => {
+    dispatch(listCvDetails(cvId))
     if (!userInfo) {
       navigate('/login');
     } else {
@@ -49,9 +57,9 @@ const ProfileScreen = () => {
     }
   };
 
-  const submitHandler = () => {
-    navigate('/employeeForm');
-  };
+  const recruiterSubmitHandler = () => {
+    console.log('Jj')
+  }
 
   return (
     <>
@@ -59,6 +67,40 @@ const ProfileScreen = () => {
       {error && <Message variant='danger'>{error}</Message>}
       {success && <Message variant='success'>Profile Updated</Message>}
       {loading && <Loader />}
+      {!userInfo.isJobSeeker && (<div className='detail-container'>
+        <div className='left'>
+          <p>
+            <span>Employee Applied to your  Job: </span>{' '}
+            {/* <span className='title'>{cv.title}</span> */}
+          </p>
+          <p>
+            <span>Jobs Status: </span>
+            {/* {job.jobLevel} */}
+          </p>
+          <div className='right'>
+              <form onSubmit={recruiterSubmitHandler}>
+                  <input type='submit' value='See Details' className='input-submit' />
+              </form>
+            </div>
+        </div>
+      </div>)}
+      {userInfo.isJobSeeker && (<div className='detail-container'>
+        <div className='left'>
+          <p>
+            <span>Applied Job:</span>{' '}
+            {/* <span className='title'>{cv.title}</span> */}
+          </p>
+          <p>
+            <span>Jobs Status: </span>
+            {/* {job.jobLevel} */}
+          </p>
+          
+        </div>
+        <div className='right'>
+          <input type='submit' value='See Details' className='input-submit' />
+        </div>
+        
+      </div>)}
       <div className='profile-container'>
         <div className='box'>
           <div className='profile-header'>
@@ -111,46 +153,6 @@ const ProfileScreen = () => {
             <div>
               <input type='submit' value='Update' className='input-submit' />
             </div>
-          </form>
-        </div>
-      </div>
-      <div className='detail-container'>
-        <div className='left'>
-          <p>
-            <span>Job Title:</span>{' '}
-            {/* <span className='title'>{cv.title}</span> */}
-          </p>
-          <p>
-            <span>Level: </span>
-            {/* {job.jobLevel} */}
-          </p>
-          <p>{/* <span>Type:</span> {job.type} */}</p>
-          <p>{/* <span>Job Location:</span> {job.location} */}</p>
-          {/* <p>
-              <span>Work Location:</span> {job.workLocation}
-            </p> */}
-          <p>{/* <span>Job Description:</span> {job.description} */}</p>
-          <p>{/* <span>Company Name:</span> {job.companyName} */}</p>
-          <p>
-            <span>Skills Required: </span>
-            {/* {job.skills} */}
-          </p>
-          <p>
-            <span>Posted At: </span>
-            {/* {job.createdAt} */}
-          </p>
-        </div>
-
-        <div className='right'>
-          {/* <p>Vaccancies: {job.numberOfEmployee} </p> */}
-          <p>
-            {/* Sex:{' '}
-                {job.applicantsNeeded == null
-                  ? 'Female & Male'
-                  : job.applicantsNeeded}{' '} */}
-          </p>
-          <form onSubmit={submitHandler}>
-            <input type='submit' value='Edit' className='input-submit' />
           </form>
         </div>
       </div>

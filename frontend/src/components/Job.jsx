@@ -1,7 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Job({ item }) {
+  const navigate = useNavigate();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   const { _id, companyName, featured, title, type, location, skills } = item;
 
   let keywords = [...skills];
@@ -15,12 +20,10 @@ function Job({ item }) {
       <div className='part1'>
         <div className='company'>
           <span className='cname'>{companyName}</span>
-          {/* check to see it its new and add styles */}
-          {/* {newPost && <span className='new'>New!</span>} */}
           {featured && <span className='featured'>featured</span>}
         </div>
 
-        <Link to={`/jobs/${_id}`}>
+        <Link to={`/jobs/${_id}` }>
           <div className='position'>{title}</div>
         </Link>
 

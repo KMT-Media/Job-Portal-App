@@ -4,8 +4,12 @@ const jobsSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      // required: true,
       ref: 'User',
+    },
+    userApplied: {
+      type: String,
+      // required: true,
     },
     title: {
       type: String,
@@ -50,6 +54,10 @@ const jobsSchema = mongoose.Schema(
     },
     applicantsNeeded: {
       type: String,
+    },
+    isApproved: {
+      type: Boolean,
+      default: false,
     },
     skills: [String],
   },

@@ -1,3 +1,4 @@
+import { USER_CV_UPDATE_FAIL, USER_CV_UPDATE_REQUEST, USER_CV_UPDATE_RESET, USER_CV_UPDATE_SUCCESS } from '../constants/employeeConstant';
 import {
   USER_CV_REGISTER_FAIL,
   USER_CV_REGISTER_REQUEST,
@@ -103,6 +104,34 @@ export const userDeleteReducer = (state = {}, action) => {
     case USER_DELETE_SUCCESS:
       return { loading: false, success: true };
     case USER_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userUpdateCvReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_CV_UPDATE_REQUEST:
+      return { loading: true };
+    case USER_CV_UPDATE_SUCCESS:
+      return { loading: false, success: true, cv: action.payload };
+    case USER_CV_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    case USER_CV_UPDATE_RESET:
+      return { cv: {} };
+    default:
+      return state;
+  }
+};
+
+export const userCvRegisterReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_CV_REGISTER_REQUEST:
+      return { loading: true };
+    case USER_CV_REGISTER_SUCCESS:
+      return { loading: false, cv: action.payload, success: true };
+    case USER_CV_REGISTER_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

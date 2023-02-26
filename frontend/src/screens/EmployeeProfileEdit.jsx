@@ -1,51 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerCvAction } from '../actions/userActions';
-import { listCvDetails } from '../actions/employeeAction';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-
 import '../scss/Login.scss';
+import { listCvDetails, updateCv } from '../actions/employeeAction';
+import { USER_CV_UPDATE_RESET } from '../constants/employeeConstant';
 
-const EmployeeFormScreen = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+const EmployeeProfileEdit = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const params = useParams();
+    const cvId = params.id;
+
   const [name, setName] = useState('');
   const [gpa, setGpa] = useState(0);
   const [graduatedAt, setGraduatedAt] = useState('');
   const [workExperience, setWorkExperience] = useState('');
   const [languages, setLanguages] = useState('');
 
-  const userLogin = useSelector(state => state.userLogin);
-  const {userInfo} = userLogin;
-  const userCvRegister = useSelector(state => state.userCvRegister);
-  const {loading, success, cv, error} = userCvRegister;
-
+  const { loading, cv, error } = useSelector((state) => state.cvDetails);
+  const { loading: loadingUpdate, success: successUpdate, error: errorUpdate} = useSelector((state) => state.userUpdateCv);
   useEffect(() => {
-    // if (success) {
-    //   navigate('/');
-    // }
-  }, [navigate, success, cv]);
+    if (successUpdate){
+        dispatch({type: USER_CV_UPDATE_RESET})
+        navigate(-1);
+    } else {
+        if (!cv.name) {
+            dispatch(listCvDetails(cvId));
+        } else {
+            setName(cv.name)
+            setGpa(cv.gpa)
+            setGraduatedAt(cv.graduatedAt)
+            setWorkExperience(cv.workExperience)
+            setLanguages(cv.languages)
+        }
+    }
+  }, [dispatch, navigate, cvId, cv, successUpdate]);
 
   const submitHandler = (e) => {
-    e.preventDefault();
-    // setUid(userInfo._id);
-    dispatch(registerCvAction(name, gpa, graduatedAt, workExperience, languages));
-  };
+    e.preventDefault()
+    dispatch(updateCv({
+        _id: cvId,
+        name,
+        gpa,
+        graduatedAt,
+        workExperience,
+        workExperience,
+        languages
+    }))
+  }
 
   return (
     <>
     {loading && <Loader />}
     {error && <Message variant='danger'>{error}</Message>}
+    {error && <Message variant='danger'>{errorUpdate}</Message>}
     <div className='login-container'>
       <div className='box'>
         <div className='login-header'>
-          <p>Register Your Cv Here</p>
+          <p>Update your cv here</p>
         </div>
         <form onSubmit={submitHandler}>
           <div className='input-box'>
-            <label htmlFor='name'>Name</label>
+            <label htmlFor='name'>Your Name:</label>
             <input
               type='name'
               value={name}
@@ -65,7 +83,7 @@ const EmployeeFormScreen = () => {
             />
           </div>
           <div className='input-box'>
-            <label htmlFor='graduatedat'>graduatedAt</label>
+            <label htmlFor='graduatedat'>Graduated At</label>
             <input
               type='text'
               className='input-field'
@@ -96,7 +114,7 @@ const EmployeeFormScreen = () => {
           </div>
          
           <div className='input-box'>
-            <input type='submit' value='CreateCv' className='input-submit' />
+            <input type='submit' value='Update Cv' className='input-submit' />
           </div>
         </form>
       </div>
@@ -105,4 +123,4 @@ const EmployeeFormScreen = () => {
   );
 };
 
-export default EmployeeFormScreen;
+export default EmployeeProfileEdit;

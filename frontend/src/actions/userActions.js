@@ -256,3 +256,43 @@ export const logout = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_LIST_RESET });
 };
+
+export const registerCvAction =
+  (name, gpa, graduatedAt, workExperience, languages) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: USER_CV_REGISTER_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        '/api/users/jobs',
+        { name, gpa, graduatedAt, workExperience, languages },
+        config
+      );
+
+      dispatch({
+        type: USER_CV_REGISTER_SUCCESS,
+        payload: data,
+      });
+
+    } catch (error) {
+      dispatch({
+        type: USER_CV_REGISTER_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+

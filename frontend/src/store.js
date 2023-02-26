@@ -9,8 +9,10 @@ import {
   jobDetailsReducer,
   jobDeleteReducer,
   jobCreateReducer,
+  jobUpdateReducer,
+  jobApplyUserReducer
 } from './reducers/jobReducers';
-
+import { cvDetailsReducer, cvListReducer, cvDeleteReducer, cvApproveReducer } from './reducers/employeeReducer';
 import {
   userLoginReducer,
   userRegisterReducer,
@@ -18,6 +20,8 @@ import {
   userUpdateProfileReducer,
   userListReducer,
   userDeleteReducer,
+  userUpdateCvReducer,
+  userCvRegisterReducer
 } from './reducers/userReducers';
 
 const reducer = combineReducers({
@@ -31,6 +35,14 @@ const reducer = combineReducers({
   userUpdate: userUpdateProfileReducer,
   userList: userListReducer,
   userDelete: userDeleteReducer,
+  cvDetails: cvDetailsReducer,
+  cvlist: cvListReducer,
+  cvDelete: cvDeleteReducer,
+  userUpdateCv: userUpdateCvReducer,
+  userCvRegister: userCvRegisterReducer,
+  jobUpdate: jobUpdateReducer,
+  cvApprove: cvApproveReducer,
+  jobApplyUser:jobApplyUserReducer
 });
 
 // Load data when redux store loades(which are objects with initial data)

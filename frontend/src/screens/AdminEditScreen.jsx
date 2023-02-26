@@ -6,6 +6,7 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { listUsers, deleteUser } from '../actions/userActions';
 import { listJobs, deleteJobs } from '../actions/jobActions';
+import { listCvs, deleteCvs } from '../actions/employeeAction';
 
 const AdminEditScreen = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,12 @@ const AdminEditScreen = () => {
   const userList = useSelector((state) => state.userList);
   const { loading, users, error } = userList;
 
+  const cvlist = useSelector((state) => state.cvlist);
+  const { cv, error:errorCv } = cvlist;
+
+  const cvDelete = useSelector((state) => state.cvDelete);
+  const { success: successCvDelete } = cvDelete;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -30,10 +37,11 @@ const AdminEditScreen = () => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listUsers());
       dispatch(listJobs());
+      dispatch(listCvs());
     } else {
       navigate('/login');
     }
-  }, [dispatch, navigate, userInfo, successUserDelete, successJobDelete]);
+  }, [dispatch, navigate, userInfo, successUserDelete, successJobDelete, successCvDelete]);
 
   const deleteUserHandler = (id) => {
     if (window.confirm('Are you shure?')) {
@@ -47,21 +55,36 @@ const AdminEditScreen = () => {
     }
   };
 
+  const deleteCvHandler = (id) => {
+    if (window.confirm('Are you shure?')) {
+      dispatch(deleteCvs(id));
+    }
+  }
+
+  const gotoEdit = () => {
+    navigate(`/admin/${id}/edit`)
+  }
+
   return (
     <>
-      <h1>Manage Users</h1>
+      
       {loading ? (
         <Loader />
       ) : error ? (
+        <>
         <Message variant='danger'>{error}</Message>
+        <Message variant='danger'>{errorCv}</Message>
+        </>
       ) : (
         <>
+        <h1>Manage Users</h1>
           <Table striped bordered hover responsive className='table-sm'>
             <thead className='text-center'>
               <tr>
                 <th>ID</th>
                 <th>NAME</th>
                 <th>EMAIL</th>
+                <th>Job Seeker</th>
                 <th>ADMIN</th>
                 <th>EDIT</th>
               </tr>
@@ -73,6 +96,16 @@ const AdminEditScreen = () => {
                   <td>{user.name}</td>
                   <td>
                     <a href={`mailto:${user.email}`}>{user.email}</a>
+                  </td>
+                  <td>
+                    {user.isJobSeeker ? (
+                      <i
+                        className='fas fa-check'
+                        style={{ color: 'green' }}
+                      ></i>
+                    ) : (
+                      <i className='fas fa-times' style={{ color: 'red' }}></i>
+                    )}
                   </td>
                   <td>
                     {user.isAdmin ? (

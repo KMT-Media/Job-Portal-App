@@ -1,25 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { listJobDetails } from '../actions/jobActions';
+import { createAppliedJob, listJobDetails } from '../actions/jobActions';
 import '../scss/jobDetail.scss';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
 const JobScreen = () => {
+  const [uid, setUid] = useState('');
+  const [btnDisabled, setBtnDisabled] = useState('')
+  const [message, setMessage] = useState('')
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { id } = useParams();
   const { loading, job, error } = useSelector((state) => state.jobDetails);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const submitHandler = () => {
-    navigate('/employeeForm');
+  const cvDetails = useSelector((state) => state.cvDetails);
+  const { cv } = cvDetails;
+
+  const jobApplyUser = useSelector((state) => state.jobApplyUser);
+  const { appliedJob } = jobApplyUser;
+
+  const submitHandler = (e) => {
+    dispatch(createAppliedJob({id, userApplied: uid}))
+    e.preventDefault();
+    if (!userInfo) {
+      navigate('/login')
+    } else if (!userInfo.isJobSeeker) {
+      setBtnDisabled(true);
+      setMessage('Can not apply to job while logged in as a recruiter');
+    } else if (cv.length === 0) {
+      navigate('/employeeForm')
+    }else {
+      navigate('/employeeProfile')
+    }
   };
 
   useEffect(() => {
+    // setUid(userInfo._id)
     dispatch(listJobDetails(id));
   }, [dispatch, id, userInfo]);
   return (
@@ -27,7 +49,9 @@ const JobScreen = () => {
       {loading ? (
         <Loader />
       ) : error ? (
+        <>
         <Message variant='danger'>{error}</Message>
+        </>
       ) : (
         <>
           <div className='detail-container'>
@@ -46,9 +70,6 @@ const JobScreen = () => {
               <p>
                 <span>Job Location:</span> {job.location}
               </p>
-              {/* <p>
-              <span>Work Location:</span> {job.workLocation}
-            </p> */}
               <p>
                 <span>Job Description:</span> {job.description}
               </p>
@@ -74,9 +95,16 @@ const JobScreen = () => {
                   : job.applicantsNeeded}{' '}
               </p>
               <form onSubmit={submitHandler}>
-                {userInfo.isJobSeeker === true && (
-                  <input type='submit' value='Apply' className='input-submit' />
-                )}
+                <p className='text-danger'>{message}</p>
+                <input
+                  type='text'
+                  value={uid}
+                  onChange={(e) => setUid(e.target.value)}
+                  required
+                  className='input-field'
+                  style={{display: 'none'}}
+                />
+                  <input type='submit' value='Apply'disabled={btnDisabled} className='input-submit' />
               </form>
             </div>
           </div>

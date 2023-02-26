@@ -7,6 +7,11 @@ const Header = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const cvlist = useSelector((state) => state.cvlist);
+  const { cv } = cvlist;
+
+  const cvDetail = cv.filter(c => c.user === userInfo._id)
+
   const dispatch = useDispatch();
   const loginSubmitHandler = () => {
     dispatch(logout());
@@ -17,7 +22,7 @@ const Header = () => {
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>JobPortal</Navbar.Brand>
+            <Navbar.Brand>Job Link</Navbar.Brand>
           </LinkContainer>
 
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -48,7 +53,7 @@ const Header = () => {
                       <i className='fa-solid fa-users'></i> Users & Jobs
                     </NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to='/admin/joblist'>
+                  <LinkContainer to='/admin/approvals'>
                     <NavDropdown.Item>
                       <i className='fa-solid fa-check'></i> Approvals
                     </NavDropdown.Item>
@@ -57,7 +62,7 @@ const Header = () => {
               )}
               {userInfo && !userInfo.isJobSeeker && !userInfo.isAdmin && (
                 <NavDropdown title='Manage' id='employermenu'>
-                  <LinkContainer to='/employer/jobList'>
+                  <LinkContainer to={`/employer/jobList/${userInfo._id}`}>
                     <NavDropdown.Item>
                       <i className='fa-solid fa-users'></i> Your Jobs
                     </NavDropdown.Item>
@@ -66,9 +71,17 @@ const Header = () => {
               )}
               {userInfo && userInfo.isJobSeeker && (
                 <NavDropdown title='Manage' id='employermenu'>
-                  <LinkContainer to='/employeeForm'>
+                  {cvDetail.length === 0 && (
+                    <LinkContainer to='/employeeForm'>
                     <NavDropdown.Item>
                       <i className='fa-solid fa-users'></i> Your CV
+                    </NavDropdown.Item>
+                  </LinkContainer>
+                  )}
+                  
+                  <LinkContainer to='/employeeProfile'>
+                    <NavDropdown.Item>
+                      <i className='fa-solid fa-users'></i> Your Profile
                     </NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>

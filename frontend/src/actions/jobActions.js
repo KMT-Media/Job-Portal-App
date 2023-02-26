@@ -11,6 +11,11 @@ import {
   JOB_CREATE_REQUEST,
   JOB_CREATE_SUCCESS,
   JOB_CREATE_FAIL,
+  JOB_UPDATE_FAIL,
+  JOB_UPDATE_SUCCESS,
+  JOB_UPDATE_REQUEST,
+  JOB_CREATE_APPLIED_REQUEST,
+  JOB_CREATE_APPLIED_SUCCESS,
 } from '../constants/jobConstants.js';
 
 import axios from 'axios';
@@ -21,7 +26,6 @@ export const listJobs =
     try {
       dispatch({ type: JOB_LIST_REQUEST });
       const { data } = await axios.get(`/api/jobs?keyword=${keyword}`);
-      // console.log(data);
       dispatch({ type: JOB_LIST_SUCCESS, payload: data });
     } catch (error) {
       dispatch({
@@ -106,6 +110,77 @@ export const createJob = () => async (dispatch, getState) => {
         : error.message;
     dispatch({
       type: JOB_CREATE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const updateJob = (job) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: JOB_UPDATE_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    const { data } = await axios.put(
+      `/api/jobs/${job._id}`,
+      job,
+      config
+    )
+
+    dispatch({
+      type: JOB_UPDATE_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout())
+    }
+    dispatch({
+      type: JOB_UPDATE_FAIL,
+      payload: message,
+    })
+  }
+}
+
+export const createAppliedJob = ({id, userApplied}) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: JOB_CREATE_APPLIED_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.post(`/api/jobs/applied/${id}`, {userApplied}, config);
+    dispatch({ type: JOB_CREATE_APPLIED_SUCCESS, payload: data });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({
+      type: JOB_CREATE_APPLIED_REQUEST,
       payload: message,
     });
   }
